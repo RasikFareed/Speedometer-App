@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -145,20 +146,21 @@ public class MainActivity extends AppCompatActivity {
         speedometer.setMaxSpeed(300);
         speedometer.setMajorTickStep(30);
         speedometer.setMinorTicks(2);
-
+        speedometer.setSpeed(speedometer.getMaxSpeed(),true);
         // Configure value range colors
         speedometer.addColoredRange(30, 140, Color.GREEN);
         speedometer.addColoredRange(140, 180, Color.YELLOW);
         speedometer.addColoredRange(180, 400, Color.RED);
-
+        //System.out.println("speed:"+speedometer.setSpeed(speedometer.getMaxSpeed(),true).getDuration());
+        speedometer.setSpeed(300,true);
+        animaterSpeedometer(0);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //The method below checks if Location is enabled on device or not. If not, then an alert dialog box appears with option
                 //to enable gps.
-                //isPermissionGranted();
-              //  checkGps();
+
            if(requestPermission(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION)){
                checkGps();
            }
@@ -311,10 +313,18 @@ public class MainActivity extends AppCompatActivity {
 
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
-                speedometer.setSpeed(bundle.getDouble("Speed"));
+                speedometer.setSpeed(bundle.getDouble("Speed"),true);
             }
         }
     };
 
+ public void animaterSpeedometer(final double animateSpeed){
+     final Handler handler = new Handler();
+     handler.postDelayed(new Runnable() {
+         @Override
+         public void run() {
+             speedometer.setSpeed(animateSpeed,true);         }
+     }, 1600);
 
+ }
 }
