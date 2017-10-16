@@ -146,13 +146,11 @@ public class MainActivity extends AppCompatActivity {
         speedometer.setMaxSpeed(300);
         speedometer.setMajorTickStep(30);
         speedometer.setMinorTicks(2);
-        speedometer.setSpeed(speedometer.getMaxSpeed(),true);
         // Configure value range colors
         speedometer.addColoredRange(30, 140, Color.GREEN);
         speedometer.addColoredRange(140, 180, Color.YELLOW);
         speedometer.addColoredRange(180, 400, Color.RED);
-        //System.out.println("speed:"+speedometer.setSpeed(speedometer.getMaxSpeed(),true).getDuration());
-        speedometer.setSpeed(300,true);
+        speedometer.setSpeed(speedometer.getMaxSpeed(),true);
         animaterSpeedometer(0);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
