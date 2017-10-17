@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -116,10 +118,12 @@ public class MainActivity extends AppCompatActivity {
             moveTaskToBack(true);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         speedometer = (SpeedometerGauge) findViewById(R.id.speedometer);
 
@@ -134,20 +138,20 @@ public class MainActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.image);
 
         speedometer.setLabelConverter(new SpeedometerGauge.LabelConverter() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-            @Override
             public String getLabelFor(double progress, double maxProgress) {
                 return String.valueOf((int) Math.round(progress));
             }
         });
+
+        speedometer.setLabelTextSize(20);
         // configure value range and ticks
-        speedometer.setMaxSpeed(300);
+        speedometer.setMaxSpeed(180);
         speedometer.setMajorTickStep(30);
         speedometer.setMinorTicks(2);
-        // Configure value range colors
-        speedometer.addColoredRange(30, 140, Color.GREEN);
-        speedometer.addColoredRange(140, 180, Color.YELLOW);
-        speedometer.addColoredRange(180, 400, Color.RED);
+
+        speedometer.addColoredRange(30, 60, Color.parseColor("#81C784"));
+        speedometer.addColoredRange(60, 120, Color.parseColor("#FFF176"));
+        speedometer.addColoredRange(120, 180, Color.parseColor("#E57373"));
         speedometer.setSpeed(speedometer.getMaxSpeed(),true);
         animaterSpeedometer(0);
         start.setOnClickListener(new View.OnClickListener() {
