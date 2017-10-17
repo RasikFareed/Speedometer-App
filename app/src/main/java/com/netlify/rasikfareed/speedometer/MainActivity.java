@@ -37,12 +37,8 @@ import static com.netlify.rasikfareed.speedometer.LocationService.MY_ACTION;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private boolean bound = false;
-
     private SpeedometerGauge speedometer;
     public static final int MULTIPLE_PERMISSION_REQUEST = 43;
-    String TAG = "MainActivity";
     LocationService myService;
     static boolean status;
     LocationManager locationManager;
@@ -182,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 locate.show();
                 start.setVisibility(View.GONE);
                 pause.setVisibility(View.VISIBLE);
-                pause.setText("Pause");
+                pause.setText(getResources().getString(R.string.pause));
                 stop.setVisibility(View.VISIBLE);
 
 
@@ -193,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (pause.getText().toString().equalsIgnoreCase("pause")) {
-                    pause.setText("Resume");
+                    pause.setText(getResources().getString(R.string.resume));
                     p = 1;
 
                 } else if (pause.getText().toString().equalsIgnoreCase("Resume")) {
@@ -203,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "GPS is not enabled in your device", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    pause.setText("Pause");
+                    pause.setText(getResources().getString(R.string.pause));
                     p = 0;
 
                 }
@@ -217,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
                 if (status)
                     unbindService();
                 start.setVisibility(View.VISIBLE);
-                pause.setText("Pause");
+                pause.setText(getResources().getString(R.string.pause));
                 pause.setVisibility(View.GONE);
                 stop.setVisibility(View.GONE);
                 p = 0;
