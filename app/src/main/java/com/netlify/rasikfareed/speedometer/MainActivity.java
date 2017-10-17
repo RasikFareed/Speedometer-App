@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     void bindService() {
-        if (status == true)
+        if (status)
             return;
         Intent i = new Intent(getApplicationContext(), LocationService.class);
         bindService(i, sc, BIND_AUTO_CREATE);
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void unbindService() {
-        if (status == false)
+        if (!status)
             return;
         Intent i = new Intent(getApplicationContext(), LocationService.class);
         unbindService(sc);
@@ -107,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (status == true)
+        if (status)
             unbindService();
     }
 
     @Override
     public void onBackPressed() {
-        if (status == false)
+        if (!status)
             super.onBackPressed();
         else
             moveTaskToBack(true);
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.image);
 
         speedometer.setLabelConverter(new SpeedometerGauge.LabelConverter() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public String getLabelFor(double progress, double maxProgress) {
                 return String.valueOf((int) Math.round(progress));
@@ -170,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                if (status == false)
+                if (!status)
                     //Here, the Location Service gets bound and the GPS Speedometer gets Active.
                     bindService();
                 locate = new ProgressDialog(MainActivity.this);
@@ -212,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (status == true)
+                if (status)
                     unbindService();
                 start.setVisibility(View.VISIBLE);
                 pause.setText("Pause");
@@ -301,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-    }
+     }
     }
 
     private BroadcastReceiver br = new BroadcastReceiver() {
@@ -321,8 +323,8 @@ public class MainActivity extends AppCompatActivity {
      handler.postDelayed(new Runnable() {
          @Override
          public void run() {
-             speedometer.setSpeed(animateSpeed,true);         }
-     }, 1600);
-
- }
+             speedometer.setSpeed(animateSpeed,true);
+             }
+         }, 1600);
+     }
 }

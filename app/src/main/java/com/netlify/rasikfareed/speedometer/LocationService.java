@@ -29,10 +29,10 @@ import static android.R.attr.y;
 
 public class LocationService extends Service implements LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
-    final static String MY_ACTION = "Speedometer    ";
+    final static String MY_ACTION = "Speedometer";
 
     private static final long INTERVAL = 1000 * 2;
-    private static final long FASTEST_INTERVAL = 1000 * 1;
+    private static final long FASTEST_INTERVAL = 1000;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     Location mCurrentLocation, lStart, lEnd;
@@ -114,9 +114,9 @@ public class LocationService extends Service implements LocationListener,GoogleA
 
     }
 
-    public class LocalBinder extends Binder {
+    class LocalBinder extends Binder {
 
-        public LocationService getService() {
+        LocationService getService() {
             return LocationService.this;
         }
 
@@ -160,7 +160,6 @@ public class LocationService extends Service implements LocationListener,GoogleA
 
 
     private void speedo(double speed) {
-
         Intent intent = new Intent(MY_ACTION);
         intent.putExtra("Speed", speed);
         sendBroadcast(intent);
